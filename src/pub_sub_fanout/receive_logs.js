@@ -11,7 +11,7 @@ const receiveLogs = async () => {
     durable: true,
   });
 
-  const q = await ch.assertQueue("product", { exclusive: false });
+  const q = await ch.assertQueue("", { exclusive: false });
 
   ch.bindQueue(q.queue, exchange, "");
 
