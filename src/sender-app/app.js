@@ -15,16 +15,18 @@ const mqHelper = new MqueueHelper();
 app.post("/send-msg", async (req, res) => {
   const { msg } = req.body;
 
-  console.log({ msg });
+  for (let i = 0; i < 100; i++) {
+    let key = i % 2 === 0 ? "hello-light" : "hello-key";
 
-  await mqHelper.sendMsg(
-    exchangeName,
-    exchangeType,
-    isExchangeDurable,
-    isMessageInChannelPsersitant,
-    key,
-    msg
-  );
+    await mqHelper.sendMsg(
+      exchangeName,
+      exchangeType,
+      isExchangeDurable,
+      isMessageInChannelPsersitant,
+      key,
+      msg
+    );
+  }
 
   return res.status(200).json({ msg: "message sent to exchange" });
 });

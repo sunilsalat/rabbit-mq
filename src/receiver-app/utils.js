@@ -55,7 +55,7 @@ class MqueueHelper {
     exchangeName,
     exchangeType,
     isExchangeDurable = false,
-    isQueueDurable = durable,
+    isQueueDurable = false,
     isQueueExclusive = false,
     key = "", //binding key
     cb,

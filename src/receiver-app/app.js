@@ -7,14 +7,30 @@ const mqHelper = new MqueueHelper();
 const exchangeName = "test_exchange";
 const exchangeType = "direct";
 const isExchangeDurable = true;
-const isQueueDurable = true;
+const isQueueDurable = false;
 const isQueueExclusive = false;
-const key = "hello-light"; // routing key
 const queue = "random";
 
 // app.post("/receive-msg", async (req, res) => {
 const cb = async (msg, ch) => {
-  console.log("msg-received============>", JSON.parse(msg.content.toString()));
+  console.log(
+    "msg-received-hello-light-1============>",
+    JSON.parse(msg.content.toString())
+  );
+  ch.ack(msg);
+};
+const cb1 = async (msg, ch) => {
+  console.log(
+    "msg-received-hello-light-2============>",
+    JSON.parse(msg.content.toString())
+  );
+  ch.ack(msg);
+};
+const cb2 = async (msg, ch) => {
+  console.log(
+    "msg-received-heloo-key============>",
+    JSON.parse(msg.content.toString())
+  );
   ch.ack(msg);
 };
 
@@ -24,7 +40,7 @@ mqHelper.receiveMsg(
   isExchangeDurable,
   isQueueDurable,
   isQueueExclusive,
-  key,
+  "hello-light",
   cb,
   queue
 );
@@ -35,8 +51,19 @@ mqHelper.receiveMsg(
   isExchangeDurable,
   isQueueDurable,
   isQueueExclusive,
+  "hello-light",
+  cb1,
+  queue
+);
+
+mqHelper.receiveMsg(
+  exchangeName,
+  exchangeType,
+  isExchangeDurable,
+  isQueueDurable,
+  isQueueExclusive,
   "hello-key",
-  cb,
+  cb2,
   queue
 );
 
